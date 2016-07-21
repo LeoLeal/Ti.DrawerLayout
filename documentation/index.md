@@ -46,17 +46,17 @@ $.drawer.setContentView( main.getView() );
 * `leftDrawerWidth` _(Number/String)_ - sets the width of the left drawer
 * `rightDrawerWidth` _(Number/String)_ - sets the width of the right drawer
 * `drawerIndicatorEnabled` _(Boolean)_ - wether it should use the ActionBarDrawerToggle or not
-* `drawerIndicatorImage` _(String)_ - path to a custom drawer indicator image
-* `drawerLockMode` _(int)_ - sets the lock mode constant. TiDrawerLayout.LOCK_MODE_UNLOCKED (default), TiDrawerLayout.LOCK_MODE_LOCKED_CLOSED, TiDrawerLayout.LOCK_MODE_LOCKED_OPEN
-* `drawerArrowIcon` _(Boolean)_ - set this to `true` to get that fancy animation
-* `drawerArrowIconColor` _(String)_ - sets the color of the drawerIcon animation
+* ~~`drawerIndicatorImage`~~ _(String)_ - **(DEPRECATED)** path to a custom drawer indicator image
+* `drawerLockMode` _(Number)_ - sets the lock mode constant. TiDrawerLayout.LOCK_MODE_UNLOCKED (default), TiDrawerLayout.LOCK_MODE_LOCKED_CLOSED, TiDrawerLayout.LOCK_MODE_LOCKED_OPEN
+* `dragMargin` _(Number)_ - defines the width of the area the user can swipe the drawer in
+* `hideToolbar` _(Boolean)_ - hides the toolbar
 
 ## Methods
 
 * `setLeftView()` - sets the value for the `leftView` property
 * `setRightView()` - sets the value for the `rightView` property
 * `setCenterView()` - sets the value for the `centerView` property
-* `replaceCenterView(view, backstack)` - same as `setCenterView` but with second parameter
+* ~~`replaceCenterView(view, backstack)`~~ - **(DEPRECATED)** same as `setCenterView` but with second parameter
 	* `view` _(Ti.UI.View)_ - the new centerView
 	* `backstack` _(Boolean)_ - set this to `true` if you want to add this to the backstack
 * `toggleLeftWindow()` - opens or closes the left drawer
@@ -72,12 +72,11 @@ $.drawer.setContentView( main.getView() );
 * `setLeftDrawerWidth()` - sets the value for the `leftDrawerWidth` property
 * `setRightDrawerWidth()` - sets the value for the `rightDrawerWidth` property
 * `setDrawerIndicatorEnabled()` - sets the value for the `drawerIndicatorEnabled` property
-* `setDrawerIndicatorImage()` - sets the value for the `drawerIndicatorImage` property
+* ~~`setDrawerIndicatorImage()`~~ - **(DEPRECATED)** sets the value for the `drawerIndicatorImage` property
 * `setDrawerLockMode()` - sets the value for the `drawerLockMode` property
-* `setDrawerArrowIcon()` - sets the value for the `drawerArrowIcon` property
-* `setDrawerArrowIconColor()` - sets the value for the `drawerArrowIconColor` property
-* `setArrowState(value)`	-	sets the state of the drawerArrowIcon
+* ~~`setArrowState(value)`~~	- **(DEPRECATED)**	sets the state of the drawerArrowIcon
 	* `value` _(Number)_	- state (1 is arrow, 0 is hamburger, but you can set everything between)
+* `setToolbarHidden` - sets the value for `hideToolbar` property
 
 ## Events
 
@@ -96,3 +95,38 @@ $.drawer.setContentView( main.getView() );
 
 * `drawerclose` - fires when the drawer motion state changes
 	* `drawer` _(String)_ - left or right
+
+## Tricks & Pitfalls
+
+* Themes: Actionbar vs. Toolbar
+	* There are two ways to setup the drawer module according to the App bar:
+		1. Traditional: Drawer *below* App bar (using the Actionbar)
+			* use default `Theme.AppCompat` or `Theme.AppCompat.Light`
+		2. Material: Drawer *covers* App bar (using the Toolbar)
+			* use `Theme.AppCompat.NoActionBar` or `Theme.AppCompat.Light.NoActionBar`
+			* add toolbar padding
+
+
+* Using Drawer for Navigation
+	* This module only provides the layout itself. The Navigation logic must be done in your own code.
+	* I've put together an example app to demonstrate this here: [NavigationDrawer Demo App](https://github.com/manumaticx/NavigationDrawer-Demo)
+
+
+* Customizing the drawerArrowToggle
+	* This is done in your ActionBar theme like this:
+
+	```xml
+	<style name="AppTheme" parent="Theme.AppCompat.Light">
+		<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+	</style>
+
+	<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+		<item name="spinBars">true</item>
+		<item name="color">@android:color/white</item>
+	</style>
+	```
+
+	Android Docs: http://developer.android.com/reference/android/support/v7/appcompat/R.styleable.html#DrawerArrowToggle
+
+* TabGroup & Drawer
+	* Please refer to my answer [here](https://github.com/manumaticx/Ti.DrawerLayout/issues/32#issuecomment-111413941)

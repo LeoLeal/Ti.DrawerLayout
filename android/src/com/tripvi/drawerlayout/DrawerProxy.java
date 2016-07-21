@@ -196,19 +196,6 @@ public class DrawerProxy extends TiViewProxy {
 		setPropertyAndFire(Drawer.PROPERTY_LEFT_VIEW_WIDTH, arg);
 	}
 	
-	
-	@Kroll.method
-	@Kroll.setProperty
-	public void setDrawerArrowIcon(Object arg) {
-		setPropertyAndFire(Drawer.PROPERTY_DRAWER_ARROW_ICON, arg);
-	}
-	
-	@Kroll.method
-	@Kroll.setProperty
-	public void setDrawerArrowIconColor(Object arg) {
-		setPropertyAndFire(Drawer.PROPERTY_DRAWER_ARROW_ICON_COLOR, arg);
-	}
-	
 	@Kroll.method
 	@Kroll.setProperty
 	public void setLeftView(Object arg) {
@@ -235,7 +222,8 @@ public class DrawerProxy extends TiViewProxy {
 	
 	@Kroll.method
 	public void replaceCenterView(Object arg, boolean backstack) {
-		drawer.replaceCenterView((TiViewProxy) arg, backstack);
+		Log.w(TAG, "replaceCenterView is deprecated. Please use setCenterView instead.");
+		setPropertyAndFire(Drawer.PROPERTY_CENTER_VIEW, arg);
 	}
 
 	@Kroll.method
@@ -244,11 +232,11 @@ public class DrawerProxy extends TiViewProxy {
 		setPropertyAndFire(Drawer.PROPERTY_DRAWER_INDICATOR_ENABLED, arg);
 	}
     
-    @Kroll.method
-    @Kroll.setProperty
-    public void setDrawerLockMode(Object arg) {
-        setPropertyAndFire(Drawer.PROPERTY_DRAWER_LOCK_MODE, arg);
-    }
+    	@Kroll.method
+    	@Kroll.setProperty
+    	public void setDrawerLockMode(Object arg) {
+	        setPropertyAndFire(Drawer.PROPERTY_DRAWER_LOCK_MODE, arg);
+    	}
 
 	@Kroll.method
 	@Kroll.setProperty
@@ -265,6 +253,12 @@ public class DrawerProxy extends TiViewProxy {
 	public void setArrowState (Integer state){
 		Message message = getMainHandler().obtainMessage(MSG_ARROW_STATE, TiConvert.toFloat(state, 0));
 		message.sendToTarget();
+	}
+	
+	@Kroll.method
+	@Kroll.setProperty
+	public void setToolbarHidden(Object arg) {
+		setPropertyAndFire(Drawer.PROPERTY_HIDE_TOOLBAR, arg);
 	}
 
 }
